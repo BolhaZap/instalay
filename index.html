@@ -59,15 +59,40 @@
 
         fbq('init', '1554046405266903');
         
+        // Disparar PageView com fallback Beacon
         function sendPageView() {
             try {
                 fbq('track', 'PageView');
             } catch(e) {}
 
+            // redundância para garantir o envio mesmo durante o redirect
             try {
                 navigator.sendBeacon(
                     'https://www.facebook.com/tr/',
                     new URLSearchParams({
                         id: '1554046405266903',
                         ev: 'PageView',
-                        dl: window.locati
+                        dl: window.location.href
+                    })
+                );
+            } catch(e) {}
+        }
+
+        sendPageView();
+    </script>
+</head>
+
+<body>
+
+    <div class="loader"></div>
+    <div class="text">Aguarde Alguns Segundos...</div>
+
+    <script>
+        // Redirecionamento com pequeno atraso para garantir envio do pixel
+        setTimeout(function() {
+            window.location.href = "https://www.instagram.com/laiane_lailaa";
+        }, 800); 
+    </script>
+
+</body>
+</html>
